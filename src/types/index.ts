@@ -2,15 +2,15 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'parent' | 'child' | 'teacher' | 'admin';
-  createdAt: Date;
+  role: 'admin' | 'principal' | 'teacher' | 'coordinator' | 'parent' | 'student' | 'guest';
+  created_at: string;
 }
 
 export interface Location {
   latitude: number;
   longitude: number;
-  timestamp: Date;
-  userId: string;
+  timestamp: string;
+  user_id: string;
 }
 
 export interface School {
@@ -18,14 +18,14 @@ export interface School {
   name: string;
   latitude: number;
   longitude: number;
-  radius: number; // Radius in meters for geofencing
+  radius: number;
 }
 
 export interface Attendance {
   id: string;
-  userId: string;
-  schoolId: string;
-  date: Date;
-  isPresent: boolean;
+  user_id: string;
+  school_id: string;
+  date: string;
+  is_present: boolean;
   location?: Location;
 }

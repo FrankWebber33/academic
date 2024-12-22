@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@/types';
 import { supabase } from '@/lib/supabase';
 
@@ -21,7 +21,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Check active sessions and sets the user
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        setUser(session.user as User);
+        // Transform Supabase user to our User type
+        const appUser: User = {
+          id: session.user.id,
+          email: session.user.email!,
+          name: session.user.user_metadata.name || 'User',
+          role: session.user.user_metadata.role || 'guest',
+          created_at: session.user.created_at
+        };
+        setUser(appUser);
       }
       setLoading(false);
     });
@@ -29,7 +37,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Listen for changes on auth state
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        setUser(session.user as User);
+        const appUser: User = {
+          id: session.user.id,
+          email: session.user.email!,
+          name: session.user.user_metadata.name || 'User',
+          role: session.user.user_metadata.role || 'guest',
+          created_at: session.user.created_at
+        };
+        setUser(appUser);
       } else {
         setUser(null);
       }

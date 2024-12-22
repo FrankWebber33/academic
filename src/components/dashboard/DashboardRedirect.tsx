@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { ParentDashboard } from '@/pages/dashboard/ParentDashboard';
 import { StudentDashboard } from '@/pages/dashboard/StudentDashboard';
