@@ -1,9 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import path from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
@@ -22,11 +21,12 @@ app.use('/api/users', userRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
-  const distPath = path.join(__dirname, '../../dist');
+  const distPath = join(__dirname, '../../../dist');
   app.use(express.static(distPath));
   
+  // Handle React routing
   app.get('*', (req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'));
+    res.sendFile(join(distPath, 'index.html'));
   });
 }
 
